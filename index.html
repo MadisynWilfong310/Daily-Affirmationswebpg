@@ -1,0 +1,166 @@
+
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wellness Dashboard</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<script>
+  (function(d) {
+    var config = {
+      kitId: 'abcd123',
+      scriptTimeout: 3000,
+      async: true
+    },
+    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),
+    tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;
+    h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';
+    tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!=="complete"&&a!=="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};
+    s.parentNode.insertBefore(tk,s)
+  })(document);
+</script>
+
+</head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+  rel="stylesheet"
+/>
+
+<body>
+
+  <!-- Sidebar for note tabs -->
+<div id="notes-sidebar">
+  <!-- New‐note tab at the bottom -->
+  <button id="add-note-btn" class="note-add-btn">＋</button>
+</div>
+
+
+
+
+
+
+ 
+    <!-- top nav -->
+  <header class="site-header">
+    <h1>Wellness Dashboard</h1>
+    <nav>
+      <a href="index.html" class="active">Affirmations</a>
+      <a href="meditation.html">Meditations</a>
+      <a href="mood.html">Mood Tracker</a>
+      <a href="journal.html">Journal</a>
+    </nav>
+  </header>
+
+  <!-- main content area -->
+  <main class="main-content">
+    <section class="welcome">
+      <h2>Welcome to Your Wellness Dashboard</h2>
+      <p>Track your mood, meditate, and reflect on your day.</p>
+    </section>
+
+    <!-- 2) Affirmation title -->
+    <section class="affirmation-header">
+      <h2>There's Power in Daily Affirmations</h2>
+    </section>
+
+    <!-- 3) Affirmation box + button -->
+    <section class="affirmation-widget">
+      <div id="affirmationDisplay" class="affirmation-box">
+        Click “Get Affirmation” to begin.
+      </div>
+
+      <button id="affirmationButton" class="center-button"><b>Get Affirmation</b></button>
+    <button id="favoriteBtn" class="center-button">Favorite</button>
+    </section>
+
+  </main>
+
+
+ 
+
+  
+
+
+
+  <script src="script.js"></script>
+    <script>
+        
+       const affirmations = [
+            "I am capable of achieving my goals.",
+            "I embrace challenges and grow from them.",
+            "I am worthy of love and respect.",
+            "I attract positivity and abundance into my life.",
+            "I am resilient and can overcome any obstacle.",
+            "I am in control of my thoughts and emotions.",
+            "I am deserving of success and happiness.",
+            "I trust myself and my decisions.",
+            "I am grateful for the opportunities that come my way.",
+            "I am constantly learning and evolving.",
+            "I radiate confidence and positivity.",
+            "I am surrounded by supportive and loving people.",
+            "I am at peace with my past and excited for my future.",
+            "I am enough just as I am.",
+            "I choose to focus on the positive in every situation.",
+            "I am a magnet for success and good fortune.",
+            "I am capable of making a difference in the world.",
+            "I am open to new experiences and opportunities.",
+            "I am strong, both physically and mentally."
+        ];
+
+        function getRandomAffirmation() {
+            const randomIndex = Math.floor(Math.random() * affirmations.length);
+            return affirmations[randomIndex];
+        }
+
+        function showRandomAffirmation() {
+            const box = document.getElementById("affirmationDisplay");
+            box.classList.add("hidden");
+            setTimeout(() => {
+                box.innerText = getRandomAffirmation();
+                box.classList.remove("hidden");
+                // Uncomment the next lines if you have canvas-confetti installed and imported
+                // confetti({
+                //     particleCount: 100,
+                //     spread: 70,
+                //     origin: { y: 0.6 }
+                // });
+            }, 500);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const box = document.getElementById("affirmationDisplay");
+            const btn = document.getElementById("affirmationButton");
+            const favoriteBtn = document.getElementById("favoriteBtn");
+
+            if (btn) {
+                btn.addEventListener("click", () => {
+                    showRandomAffirmation();
+                });
+            }
+
+            if (box) {
+                box.addEventListener("click", () => {
+                    showRandomAffirmation();
+                });
+            }
+
+            if (favoriteBtn) {
+                favoriteBtn.addEventListener("click", () => {
+                    const favoriteAffirmation = box.innerText;
+                    localStorage.setItem("favoriteAffirmation", favoriteAffirmation);
+                    alert("Affirmation saved to favorites!");
+                });
+            }
+
+            // Optionally, show an affirmation on load
+            showRandomAffirmation();
+        });
+  
+    </script>
+</body>
+</html>

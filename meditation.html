@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Meditations</title>
+  <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+  (function(d) {
+    var config = {
+      kitId: 'abcd123',
+      scriptTimeout: 3000,
+      async: true
+    },
+    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),
+    tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;
+    h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';
+    tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!=="complete"&&a!=="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};
+    s.parentNode.insertBefore(tk,s)
+  })(document);
+</script>
+
+
+
+
+</head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+  rel="stylesheet"
+/>
+
+
+
+
+<body>
+
+  <header class="site-header">
+    <h1>Wellness Dashboard</h1>
+    <nav>
+      <a href="index.html">Affirmations</a>
+      <a href="meditation.html" class="active">Meditations</a>
+      <a href="mood.html">Mood Tracker</a>
+      <a href="journal.html">Journal</a>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <h2>Meditation Tracker</h2>
+    <form id="meditation-form" class="tracker-form">
+      <label for="meditation-date">Date:</label>
+      <input type="date" id="meditation-date" required />
+
+      <label for="meditation-time">Time:</label>
+      <input type="time" id="meditation-time" required />
+
+      <label>
+        <input type="checkbox" id="meditated" /> Did Meditation
+      </label>
+
+      <button type="submit">Add Entry</button>
+    </form>
+
+    <section id="meditation-log" class="tracker-log">
+      <h3>Log</h3>
+      <ul id="log-list"></ul>
+    </section>
+  </main>
+
+
+  
+
+
+
+  
+ <script>
+    const form = document.getElementById('meditation-form');
+    const logList = document.getElementById('log-list');
+
+    // Load existing entries from localStorage
+    const stored = JSON.parse(localStorage.getItem('meditationLog') || '[]');
+    stored.forEach(addLogItem);
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const date = document.getElementById('meditation-date').value;
+      const time = document.getElementById('meditation-time').value;
+      const did = document.getElementById('meditated').checked;
+      const entry = { date, time, did };
+
+      // Save in localStorage
+      stored.push(entry);
+      localStorage.setItem('meditationLog', JSON.stringify(stored));
+
+      // Add to UI
+      addLogItem(entry);
+      form.reset();
+    });
+
+    function addLogItem({ date, time, did }) {
+      const li = document.createElement('li');
+      li.innerText = `${date} @ ${time}: ${did ? '✅' : '❌'}`;
+      logList.appendChild(li);
+    }
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>

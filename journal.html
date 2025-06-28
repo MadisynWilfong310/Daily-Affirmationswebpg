@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Journal</title>
+  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Reflection Journal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+<script>
+  (function(d) {
+    var config = {
+      kitId: 'abcd123',
+      scriptTimeout: 3000,
+      async: true
+    },
+    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),
+    tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;
+    h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';
+    tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!=="complete"&&a!=="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};
+    s.parentNode.insertBefore(tk,s)
+  })(document);
+</script>
+
+</head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+  rel="stylesheet"
+/>
+</head>
+<body>
+
+
+
+  <!-- Your site-wide header/nav -->
+  <header class="site-header">
+    <h1>Wellness Dashboard</h1>
+    <nav>
+      <a href="index.html">Affirmations</a>
+      <a href="meditation.html">Meditations</a>
+      <a href="mood.html">Mood Tracker</a>
+      <a href="journal.html" class="active">Journal</a>
+    </nav>
+  </header>
+
+  <!-- Main area for the journal -->
+  <main class="main-content">
+    <!-- 1) COVER -->
+    <div id="cover" class="journal-cover">
+      <h2>Reflection Journal</h2>
+      <p>Journal your inner thoughts</p>
+      <button id="openJournal">Open</button>
+    </div>
+
+    <!-- 2) JOURNAL PAGE (hidden initially) -->
+    <div id="page" class="journal-page hidden">
+      <div class="journal-header">
+        <button id="closeJournal">Close</button>
+      </div>
+      <textarea id="journalText" placeholder="Write your entry here…"></textarea>
+      <button id="saveEntry">Save Entry</button>
+      <ul id="entriesList"></ul>
+    </div>
+  </main>
+
+  
+
+
+  <script>
+    // grab elements
+    const coverBtn = document.getElementById('openJournal');
+    const closeBtn = document.getElementById('closeJournal');
+    const cover    = document.getElementById('cover');
+    const page     = document.getElementById('page');
+    const saveBtn  = document.getElementById('saveEntry');
+    const textarea = document.getElementById('journalText');
+    const list     = document.getElementById('entriesList');
+    const KEY      = 'reflectionJournalEntries';
+
+    // render stored entries
+    function render() {
+      const entries = JSON.parse(localStorage.getItem(KEY) || '[]');
+      list.innerHTML = entries.map(e =>
+        `<li><time>${e.date}</time><p>${e.text}</p></li>`
+      ).join('');
+    }
+
+    // show page overlay
+    coverBtn.addEventListener('click', () => {
+      cover.classList.add('hidden');
+      page.classList.remove('hidden');
+      render();
+    });
+
+    // close back to cover
+    closeBtn.addEventListener('click', () => {
+      page.classList.add('hidden');
+      cover.classList.remove('hidden');
+    });
+
+    // save a new entry
+    saveBtn.addEventListener('click', () => {
+      const text = textarea.value.trim();
+      if (!text) return alert('Please write something first.');
+      const entries = JSON.parse(localStorage.getItem(KEY) || '[]');
+      entries.unshift({ date: new Date().toLocaleString(), text });
+      localStorage.setItem(KEY, JSON.stringify(entries));
+      textarea.value = '';
+      render();
+    });
+
+    // initial render (in case left open)
+    render();
+  </script>
+  <script src="journal.js" defer></script>
+</body>
+</html>
