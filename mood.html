@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mood Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+<script>
+  (function(d) {
+    var config = {
+      kitId: 'abcd123',
+      scriptTimeout: 3000,
+      async: true
+    },
+    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),
+    tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;
+    h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';
+    tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!=="complete"&&a!=="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};
+    s.parentNode.insertBefore(tk,s)
+  })(document);
+</script>
+
+</head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+  rel="stylesheet"
+/>
+</head>
+<body>
+
+  <header class="site-header">
+    <h1>Wellness Dashboard</h1>
+    <nav>
+      <a href="index.html">Affirmations</a>
+      <a href="meditation.html">Meditations</a>
+      <a href="mood.html" class="active">Mood Tracker</a>
+      <a href="journal.html">Journal</a>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <h2>Mood Tracker</h2>
+    <div class="mood-input">
+      <label for="mood-range">How are you feeling today?</label>
+      <input type="range" id="mood-range" min="1" max="10" value="5" />
+      <span id="mood-value">5</span>
+      <button id="save-mood">Save Mood</button>
+    </div>
+
+    <section id="mood-log" class="mood-log">
+      <h3>Log</h3>
+      <ul id="log-list"></ul>
+    </section>
+  </main>
+
+ <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const range = document.getElementById('mood-range');
+      const valueDisplay = document.getElementById('mood-value');
+      const saveBtn = document.getElementById('save-mood');
+      const logList = document.getElementById('log-list');
+
+      // Initialize display
+      valueDisplay.innerText = range.value;
+
+      range.addEventListener('input', () => {
+        valueDisplay.innerText = range.value;
+      });
+
+      // Load existing entries
+      const stored = JSON.parse(localStorage.getItem('moodLog') || '[]');
+      stored.forEach(addLogItem);
+
+      saveBtn.addEventListener('click', () => {
+        const mood = range.value;
+        const timestamp = new Date();
+        const entry = {
+          mood: Number(mood),
+          date: timestamp.toLocaleDateString(),
+          time: timestamp.toLocaleTimeString()
+        };
+        stored.push(entry);
+        localStorage.setItem('moodLog', JSON.stringify(stored));
+        addLogItem(entry);
+      });
+
+      function addLogItem({ mood, date, time }) {
+        const li = document.createElement('li');
+        li.innerText = `${date} ${time} — Mood: ${mood}/10`;
+        logList.appendChild(li);
+      }
+    });
+  </script>
+</body>
+</html>
+
